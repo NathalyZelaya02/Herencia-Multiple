@@ -1,0 +1,147 @@
+Ejercicio 1
+
+class Estudiante:
+    def __init__(self, nombre, matricula):
+        self.nombre = nombre
+        self.matricula = matricula
+        self.notas = {}
+
+    def agregar_materia(self, materia):
+        self.notas[materia.codigo] = {'nombre': materia.nombre, 'lab': None, 'parcial': None}
+
+    def agregar_nota_lab(self, materia_codigo, nota):
+        if materia_codigo in self.notas:
+            self.notas[materia_codigo]['lab'] = nota
+        else:
+            print(f"Error: El estudiante no está inscrito en la materia con código {materia_codigo}")
+
+    def agregar_nota_parcial(self, materia_codigo, nota):
+        if materia_codigo in self.notas:
+            self.notas[materia_codigo]['parcial'] = nota
+        else:
+            print(f"Error: El estudiante no está inscrito en la materia con código {materia_codigo}")
+
+
+class Materia:
+    def __init__(self, nombre, codigo):
+        self.nombre = nombre
+        self.codigo = codigo
+
+
+class Notas:
+    def agregar_notas_estudiante(self, estudiante, materia, nota_lab, nota_parcial):
+        estudiante.agregar_materia(materia)
+        estudiante.agregar_nota_lab(materia.codigo, nota_lab)
+        estudiante.agregar_nota_parcial(materia.codigo, nota_parcial)
+        print(f"Notas agregadas para el estudiante {estudiante.nombre} en la materia {materia.nombre} (Código: {materia.codigo})")
+
+
+
+estudiante1 = Estudiante("Jefferson Martinez", "20220947")
+materia1 = Materia("Programación I", "PROG1")
+notas1 = Notas()
+
+notas1.agregar_notas_estudiante(estudiante1, materia1, 8.5, 7.0)
+
+print(estudiante1.notas)
+
+
+-----------
+
+Ejercicio 2
+
+class Categoria:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def mostrar_referencia(self):
+        print(f"Categoría: {self.nombre}")
+
+
+class Pelicula(Categoria):
+    def __init__(self, nombre, categoria):
+        super().__init__(categoria)
+        self.nombre = nombre
+
+    def mostrar_pelicula(self):
+        print(f"Película: {self.nombre}")
+
+
+class Cliente:
+    def __init__(self):
+        self.peliculas = {
+            "Accion": Pelicula(" Wrath of Man", "Accion"),
+            "Comedia": Pelicula("Turning Redr", "Comedia"),
+            "Terror": Pelicula("The Conjuring", "Terror")
+        }
+
+    def mostrar_peliculas(self, categoria):
+        self.peliculas[categoria].mostrar_referencia()
+        self.peliculas[categoria].mostrar_pelicula()
+
+cliente = Cliente()
+opcion = input("Seleccione una categoría (Accion, Comedia o Terror): ")
+cliente.mostrar_peliculas(opcion)
+
+
+------------
+Ejercicio 3
+
+class Juego:
+    def __init__(self, jugador1, jugador2):
+        self.jugador1 = jugador1
+        self.jugador2 = jugador2
+    
+    def jugar(self):
+        while self.jugador1.vida > 0 and self.jugador2.vida > 0:
+            # Turno del jugador 1
+            print(f"Turno de {self.jugador1.nombre}")
+            self.jugador1.golpear(self.jugador2)
+            print(f"Vida de {self.jugador2.nombre}: {self.jugador2.vida}")
+            
+            # Turno del jugador 2
+            print(f"Turno de {self.jugador2.nombre}")
+            self.jugador2.golpear(self.jugador1)
+            print(f"Vida de {self.jugador1.nombre}: {self.jugador1.vida}")
+        
+        # Mostrar el ganador
+        if self.jugador1.vida > 0:
+            print(f"{self.jugador1.nombre} ha ganado!")
+        else:
+            print(f"{self.jugador2.nombre} ha ganado!")
+
+
+class Jugador:
+    def __init__(self, nombre, luchador, vida=100):
+        self.nombre = nombre
+        self.luchador = luchador
+        self.vida = vida
+    
+    def golpear(self, oponente):
+        pass  
+
+
+class Jugador1(Jugador):
+    def __init__(self, nombre, luchador, vida=100):
+        super().__init__(nombre, luchador, vida)
+        self.poder = 1.0 
+    
+    def golpear(self, oponente):
+     
+        oponente.vida -= int(oponente.vida * 0.3)
+
+
+class Jugador2(Jugador):
+    def __init__(self, nombre, luchador, vida=100):
+        super().__init__(nombre, luchador, vida)
+        self.poder = 1.0  
+    def golpear(self, oponente):
+     
+        oponente.vida -= int(oponente.vida * 0.3)
+
+
+
+jugador1 = Jugador1("Jefferson", "Luchador1")
+jugador2 = Jugador2("Adonay", "Luchador2")
+juego = Juego(jugador1, jugador2)
+juego.jugar()
